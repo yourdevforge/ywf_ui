@@ -18,16 +18,55 @@ pnpm build
 pnpm typecheck
 ```
 
+## Publishing (Private GitHub Packages)
+
+This package is published to **GitHub Packages** under the `@yourdevforge` scope.
+
+### First-Time Setup (Publisher)
+
+1. Create a GitHub **Personal Access Token (classic)** at <https://github.com/settings/tokens>  
+   Required scopes: `write:packages`, `read:packages`
+2. Log in to the GitHub npm registry:
+   ```bash
+   npm login --registry=https://npm.pkg.github.com
+   # Username: your GitHub username
+   # Password: paste your token
+   # Email: your GitHub email
+   ```
+3. Build and publish:
+   ```bash
+   pnpm build
+   npm publish
+   ```
+4. To publish a new version, bump the version first:
+   ```bash
+   npm version patch   # or minor / major
+   pnpm build
+   npm publish
+   ```
+
 ## Usage in a Nuxt 4 App
 
 ### 1. Install
 
-```bash
-# From a local path (during development)
-pnpm add ../ywf_ui
+Create an `.npmrc` file in the **root of your consuming project**:
 
-# Or after publishing
-pnpm add ywf-ui
+```
+@yourdevforge:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+> **For collaborators:** Create a Personal Access Token with `read:packages` scope.
+> Never commit your token — add `.npmrc` to `.gitignore` or use an environment variable:
+>
+> ```
+> //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+> ```
+
+Then install:
+
+```bash
+pnpm add @yourdevforge/ywf-ui
 ```
 
 ### 2. Create a Nuxt Plugin
@@ -35,8 +74,8 @@ pnpm add ywf-ui
 Create `plugins/ywf-ui.ts` in your Nuxt app:
 
 ```ts
-import { YwfUIPlugin } from "ywf-ui";
-import "ywf-ui/style.css";
+import { YwfUIPlugin } from "@yourdevforge/ywf-ui";
+import "@yourdevforge/ywf-ui/style.css";
 
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vApp.use(YwfUIPlugin);
@@ -69,8 +108,8 @@ Instead of the global plugin, import only what you need:
 
 ```vue
 <script setup lang="ts">
-import { YButton, YCard } from "ywf-ui";
-import "ywf-ui/style.css"; // import once globally in your app entry
+import { YButton, YCard } from "@yourdevforge/ywf-ui";
+import "@yourdevforge/ywf-ui/style.css"; // import once globally in your app entry
 </script>
 ```
 
@@ -78,14 +117,21 @@ import "ywf-ui/style.css"; // import once globally in your app entry
 
 ### YButton
 
-| Prop        | Type                                   | Default     | Description                             |
-| ----------- | -------------------------------------- | ----------- | --------------------------------------- |
-| `size`      | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Button size                             |
-| `color`     | `string`                               | `'#3b82f6'` | Background/accent color (any CSS color) |
-| `textColor` | `string`                               | `'#ffffff'` | Text color (any CSS color)              |
-| `variant`   | `'solid' \| 'outline' \| 'ghost'`      | `'solid'`   | Visual style variant                    |
-| `disabled`  | `boolean`                              | `false`     | Disabled state                          |
-| `label`     | `string`                               | —           | Button text (alternative to slot)       |
+| Prop                 | Type                                                                  | Default      | Description                             |
+| -------------------- | --------------------------------------------------------------------- | ------------ | --------------------------------------- |
+| `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                | `'md'`       | Button size                             |
+| `color`              | `string`                                                              | `'#3b82f6'`  | Background/accent color (any CSS color) |
+| `textColor`          | `string`                                                              | `'#ffffff'`  | Text color (any CSS color)              |
+| `variant`            | `'solid' \| 'outline' \| 'ghost'`                                     | `'solid'`    | Visual style variant                    |
+| `disabled`           | `boolean`                                                             | `false`      | Disabled state                          |
+| `label`              | `string`                                                              | —            | Button text (alternative to slot)       |
+| `shadow`             | `false \| 'sm' \| 'md' \| 'lg' \| 'xl'`                               | `false`      | Shadow depth                            |
+| `rounded`            | `false \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'`                     | `'md'`       | Border radius                           |
+| `padding`            | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                | —            | Override default size-based padding     |
+| `animation`          | `false \| 'pulse' \| 'bounce' \| 'shake' \| 'glow' \| 'spin'`         | `false`      | Continuous CSS animation                |
+| `animationIntensity` | `'subtle' \| 'moderate' \| 'strong'`                                  | `'moderate'` | Controls animation speed & magnitude    |
+| `effect`             | `false \| 'ripple' \| 'scale' \| 'lift' \| 'neon' \| 'glassmorphism'` | `false`      | Interactive effect on hover/click       |
+| `effectIntensity`    | `'subtle' \| 'moderate' \| 'strong'`                                  | `'moderate'` | Controls effect magnitude               |
 
 **Slots:** `default`
 
