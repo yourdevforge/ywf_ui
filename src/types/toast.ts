@@ -14,6 +14,7 @@ export interface YToastProps {
   title?: string;
   type?: YToastType;
   variant?: YToastVariant;
+  textColor?: string;
   position?: YToastPosition;
   duration?: number;
   dismissible?: boolean;

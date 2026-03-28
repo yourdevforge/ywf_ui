@@ -44,22 +44,91 @@ function select() {
     emit("update:modelValue", props.value);
   }
 }
+
+function hexToRgba(hex: string, alpha: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
 </script>
 
 <template>
-  <label
-    class="inline-flex cursor-pointer select-none items-start gap-2.5"
-    :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
-  >
-    <span
+  <div :style="props.textColor ? { color: props.textColor } : undefined">
+    <!-- ═══════════════════════════════════════════════════
+       CARD — full clickable card, circle lives inside
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-if="variant === 'card'"
       :class="[
-        sizeMap[size ?? 'md'],
-        'relative mt-0.5 shrink-0 rounded-full border-2 transition-all duration-150 focus-within:ring-2 ring-blue-300/50',
+        'inline-flex cursor-pointer select-none items-center gap-3 rounded-xl border-2 px-4 py-3 transition-all duration-150',
+        disabled ? 'cursor-not-allowed opacity-50' : '',
         isSelected
-          ? 'border-transparent'
-          : 'border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800',
+          ? 'yradio-card--selected'
+          : 'border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50',
       ]"
-      :style="isSelected ? { backgroundColor: color, borderColor: color } : {}"
+      :style="
+        isSelected
+          ? { borderColor: color, backgroundColor: hexToRgba(color, 0.06) }
+          : {}
+      "
+    >
+      <!-- Radio circle -->
+      <span
+        :class="[
+          sizeMap[size ?? 'md'],
+          'relative shrink-0 rounded-full border-2 transition-all duration-150',
+          isSelected ? 'border-transparent' : 'border-gray-300 bg-white',
+        ]"
+        :style="
+          isSelected ? { backgroundColor: color, borderColor: color } : {}
+        "
+        role="radio"
+        :aria-checked="isSelected"
+        :aria-disabled="disabled"
+        tabindex="0"
+        @click.stop
+        @keydown.space.prevent="select"
+      >
+        <span
+          v-if="isSelected"
+          class="absolute inset-0 m-auto rounded-full bg-white"
+          :class="dotSizeMap[size ?? 'md']"
+        />
+      </span>
+      <span v-if="label || description" class="flex flex-col">
+        <span
+          v-if="label"
+          class="font-semibold leading-tight"
+          :class="[
+            labelSizeMap[size ?? 'md'],
+            isSelected ? 'text-gray-900' : 'text-gray-700',
+          ]"
+          :style="isSelected ? { color } : {}"
+          >{{ label }}</span
+        >
+        <span
+          v-if="description"
+          class="mt-0.5 text-xs leading-snug text-gray-500"
+          >{{ description }}</span
+        >
+      </span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       PILL — badge-style, no visible radio circle
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else-if="variant === 'pill'"
+      :class="[
+        'inline-flex cursor-pointer select-none items-center gap-1.5 rounded-full border px-3 py-1.5 font-medium transition-all duration-150',
+        disabled ? 'cursor-not-allowed opacity-50' : '',
+        labelSizeMap[size ?? 'md'],
+        isSelected
+          ? 'border-transparent text-white'
+          : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300',
+      ]"
+      :style="isSelected ? { backgroundColor: color } : {}"
       role="radio"
       :aria-checked="isSelected"
       :aria-disabled="disabled"
@@ -67,24 +136,259 @@ function select() {
       @click="select"
       @keydown.space.prevent="select"
     >
+      <!-- Filled dot when selected -->
       <span
-        v-if="isSelected"
-        class="absolute inset-0 m-auto rounded-full bg-white"
-        :class="dotSizeMap[size ?? 'md']"
+        class="inline-block rounded-full transition-all"
+        :class="isSelected ? 'h-1.5 w-1.5 bg-white' : 'h-1.5 w-1.5 bg-gray-300'"
       />
-    </span>
-    <span v-if="label || description" class="flex flex-col">
+      <span v-if="label">{{ label }}</span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       BRUTAL — thick black border, square feel
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else-if="variant === 'brutal'"
+      class="inline-flex cursor-pointer select-none items-start gap-3"
+      :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
+    >
       <span
-        v-if="label"
-        class="font-medium leading-tight text-gray-800 dark:text-gray-200"
-        :class="labelSizeMap[size ?? 'md']"
-        >{{ label }}</span
+        :class="[
+          sizeMap[size ?? 'md'],
+          'relative mt-0.5 shrink-0 rounded-full border-[3px] border-black transition-all duration-100',
+          isSelected ? 'bg-black' : 'bg-white hover:bg-gray-100',
+        ]"
+        role="radio"
+        :aria-checked="isSelected"
+        :aria-disabled="disabled"
+        tabindex="0"
+        @click="select"
+        @keydown.space.prevent="select"
       >
+        <span
+          v-if="isSelected"
+          class="absolute inset-0 m-auto rounded-full bg-white"
+          :class="dotSizeMap[size ?? 'md']"
+        />
+      </span>
+      <span v-if="label || description" class="flex flex-col">
+        <span
+          v-if="label"
+          class="font-black uppercase tracking-wide leading-tight text-gray-900"
+          :class="labelSizeMap[size ?? 'md']"
+          >{{ label }}</span
+        >
+        <span
+          v-if="description"
+          class="mt-0.5 text-xs leading-snug text-gray-500"
+          >{{ description }}</span
+        >
+      </span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       SOFT — tinted ring + tinted dot, no solid fill
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else-if="variant === 'soft'"
+      class="inline-flex cursor-pointer select-none items-start gap-2.5"
+      :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
+    >
       <span
-        v-if="description"
-        class="mt-0.5 text-xs leading-snug text-gray-500 dark:text-gray-400"
-        >{{ description }}</span
+        :class="[
+          sizeMap[size ?? 'md'],
+          'relative mt-0.5 shrink-0 rounded-full border-2 transition-all duration-150',
+        ]"
+        :style="
+          isSelected
+            ? { borderColor: color, backgroundColor: hexToRgba(color, 0.08) }
+            : { borderColor: '#d1d5db', backgroundColor: 'white' }
+        "
+        role="radio"
+        :aria-checked="isSelected"
+        :aria-disabled="disabled"
+        tabindex="0"
+        @click="select"
+        @keydown.space.prevent="select"
       >
-    </span>
-  </label>
+        <span
+          v-if="isSelected"
+          class="absolute inset-0 m-auto rounded-full"
+          :class="dotSizeMap[size ?? 'md']"
+          :style="{ backgroundColor: color }"
+        />
+      </span>
+      <span v-if="label || description" class="flex flex-col">
+        <span
+          v-if="label"
+          class="font-medium leading-tight text-gray-800"
+          :class="labelSizeMap[size ?? 'md']"
+          >{{ label }}</span
+        >
+        <span
+          v-if="description"
+          class="mt-0.5 text-xs leading-snug text-gray-500"
+          >{{ description }}</span
+        >
+      </span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       NEON — dark bg, glowing green ring
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else-if="variant === 'neon'"
+      class="inline-flex cursor-pointer select-none items-start gap-3"
+      :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
+    >
+      <span
+        :class="[
+          sizeMap[size ?? 'md'],
+          'relative mt-0.5 shrink-0 rounded-full border-2 transition-all duration-150',
+          isSelected ? 'yradio-neon--selected' : 'yradio-neon--idle',
+        ]"
+        role="radio"
+        :aria-checked="isSelected"
+        :aria-disabled="disabled"
+        tabindex="0"
+        @click="select"
+        @keydown.space.prevent="select"
+      >
+        <span
+          v-if="isSelected"
+          class="absolute inset-0 m-auto rounded-full yradio-neon-dot"
+          :class="dotSizeMap[size ?? 'md']"
+        />
+      </span>
+      <span v-if="label || description" class="flex flex-col">
+        <span
+          v-if="label"
+          class="font-mono leading-tight transition-all"
+          :class="[
+            labelSizeMap[size ?? 'md'],
+            isSelected ? 'yradio-neon-label--on' : 'yradio-neon-label--off',
+          ]"
+          >{{ label }}</span
+        >
+        <span
+          v-if="description"
+          class="mt-0.5 text-xs leading-snug"
+          :class="isSelected ? 'text-green-600' : 'text-gray-600'"
+          >{{ description }}</span
+        >
+      </span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       SEGMENTED — button-group feel, no circle at all
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else-if="variant === 'segmented'"
+      :class="[
+        'inline-flex cursor-pointer select-none items-center justify-center border-r border-gray-200 px-4 py-2 font-medium transition-all duration-150 first:rounded-l-lg last:rounded-r-lg last:border-r-0',
+        disabled ? 'cursor-not-allowed opacity-50' : '',
+        labelSizeMap[size ?? 'md'],
+        isSelected
+          ? 'yradio-segmented--selected'
+          : 'bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800',
+      ]"
+      :style="
+        isSelected
+          ? { backgroundColor: color, color: 'white', borderColor: color }
+          : {}
+      "
+      role="radio"
+      :aria-checked="isSelected"
+      :aria-disabled="disabled"
+      tabindex="0"
+      @click="select"
+      @keydown.space.prevent="select"
+    >
+      <span v-if="label">{{ label }}</span>
+    </label>
+
+    <!-- ═══════════════════════════════════════════════════
+       ORIGINAL variants: default, filled, ghost
+       ═══════════════════════════════════════════════════ -->
+    <label
+      v-else
+      class="inline-flex cursor-pointer select-none items-start gap-2.5"
+      :class="disabled ? 'cursor-not-allowed opacity-50' : ''"
+    >
+      <span
+        :class="[
+          sizeMap[size ?? 'md'],
+          'relative mt-0.5 shrink-0 rounded-full border-2 transition-all duration-150 focus-within:ring-2 ring-blue-300/50',
+          isSelected
+            ? 'border-transparent'
+            : 'border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800',
+        ]"
+        :style="
+          isSelected ? { backgroundColor: color, borderColor: color } : {}
+        "
+        role="radio"
+        :aria-checked="isSelected"
+        :aria-disabled="disabled"
+        tabindex="0"
+        @click="select"
+        @keydown.space.prevent="select"
+      >
+        <span
+          v-if="isSelected"
+          class="absolute inset-0 m-auto rounded-full bg-white"
+          :class="dotSizeMap[size ?? 'md']"
+        />
+      </span>
+      <span v-if="label || description" class="flex flex-col">
+        <span
+          v-if="label"
+          class="font-medium leading-tight text-gray-800 dark:text-gray-200"
+          :class="labelSizeMap[size ?? 'md']"
+          >{{ label }}</span
+        >
+        <span
+          v-if="description"
+          class="mt-0.5 text-xs leading-snug text-gray-500 dark:text-gray-400"
+          >{{ description }}</span
+        >
+      </span>
+    </label>
+  </div>
 </template>
+
+<style scoped>
+/* ── NEON ───────────────────────────────────────────── */
+.yradio-neon--idle {
+  background: #070a0f;
+  border-color: rgba(74, 222, 128, 0.3);
+}
+.yradio-neon--idle:hover {
+  border-color: rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.15);
+}
+.yradio-neon--selected {
+  background: rgba(74, 222, 128, 0.08);
+  border-color: #4ade80;
+  box-shadow:
+    0 0 12px rgba(74, 222, 128, 0.35),
+    inset 0 0 6px rgba(74, 222, 128, 0.08);
+}
+.yradio-neon-dot {
+  background: #4ade80;
+  box-shadow: 0 0 6px rgba(74, 222, 128, 0.8);
+}
+.yradio-neon-label--on {
+  color: #4ade80;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+.yradio-neon-label--off {
+  color: rgba(74, 222, 128, 0.4);
+}
+
+/* ── SEGMENTED ──────────────────────────────────────── */
+.yradio-segmented--selected {
+  /* dynamic bg/color set via :style */
+  z-index: 1;
+  position: relative;
+}
+</style>

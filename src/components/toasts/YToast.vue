@@ -81,9 +81,11 @@ const wrapperClasses = computed(() => {
   }
 });
 
-const wrapperStyle = computed(() =>
-  props.variant === "solid" ? { backgroundColor: solidBgMap[t.value] } : {},
-);
+const wrapperStyle = computed(() => {
+  const style =
+    props.variant === "solid" ? { backgroundColor: solidBgMap[t.value] } : {};
+  return props.textColor ? { ...style, color: props.textColor } : style;
+});
 </script>
 
 <template>

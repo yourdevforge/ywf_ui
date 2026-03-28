@@ -1510,6 +1510,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           options: checkboxRadii,
         },
         { key: "color", section: "appearance", editor: "color" },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
+        },
         { key: "disabled", section: "state", editor: "boolean" },
         { key: "indeterminate", section: "state", editor: "boolean" },
         {
@@ -1555,6 +1561,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           options: radioVariants,
         },
         { key: "color", section: "appearance", editor: "color" },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
+        },
         { key: "disabled", section: "state", editor: "boolean" },
       ],
       init(next) {
@@ -1589,6 +1601,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           options: switchVariants,
         },
         { key: "color", section: "appearance", editor: "color" },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
+        },
         { key: "modelValue", label: "On", section: "state", editor: "boolean" },
         { key: "disabled", section: "state", editor: "boolean" },
         { key: "loading", section: "state", editor: "boolean" },
@@ -1632,6 +1650,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           section: "appearance",
           editor: "select",
           options: selectRadii,
+        },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
         },
         {
           key: "fullWidth",
@@ -1688,6 +1712,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           editor: "color",
         },
         {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
+        },
+        {
           key: "speed",
           section: "appearance",
           editor: "select",
@@ -1724,6 +1754,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           section: "appearance",
           editor: "select",
           options: skeletonRadii,
+        },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
         },
         { key: "width", section: "dimensions" },
         { key: "height", section: "dimensions" },
@@ -1767,6 +1803,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           editor: "select",
           options: tableSizes,
         },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
+        },
         { key: "hoverable", section: "appearance", editor: "boolean" },
         {
           key: "fullWidth",
@@ -1781,13 +1823,13 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
         if (next.size === undefined) next.size = "md";
         if (next.hoverable === undefined) next.hoverable = true;
         if (next.fullWidth === undefined) next.fullWidth = true;
-        if (!Array.isArray(next.columns))
+        if (!Array.isArray(next.columns) || next.columns.length === 0)
           next.columns = [
             { key: "name", label: "Name", sortable: true },
             { key: "role", label: "Role", sortable: true },
             { key: "status", label: "Status" },
           ];
-        if (!Array.isArray(next.rows))
+        if (!Array.isArray(next.rows) || next.rows.length === 0)
           next.rows = [
             { name: "Alice Chen", role: "Designer", status: "Active" },
             { name: "Bob Smith", role: "Engineer", status: "Active" },
@@ -1823,6 +1865,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           section: "appearance",
           editor: "select",
           options: toastRadii,
+        },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
         },
         {
           key: "showIcon",
@@ -1866,6 +1914,12 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
           section: "appearance",
           editor: "select",
           options: accordionRadii,
+        },
+        {
+          key: "textColor",
+          label: "Text Color",
+          section: "appearance",
+          editor: "color",
         },
         { key: "bordered", section: "appearance", editor: "boolean" },
         { key: "separated", section: "appearance", editor: "boolean" },

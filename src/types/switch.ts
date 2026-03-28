@@ -10,6 +10,7 @@ export interface YSwitchProps {
   size?: YSwitchSize;
   variant?: YSwitchVariant;
   color?: string;
+  textColor?: string;
   disabled?: boolean;
   loading?: boolean;
 }

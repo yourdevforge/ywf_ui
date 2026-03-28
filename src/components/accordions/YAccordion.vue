@@ -204,7 +204,10 @@ function chevronClass(open: boolean): string {
 </script>
 
 <template>
-  <div :class="wrapperClass()">
+  <div
+    :class="wrapperClass()"
+    :style="props.textColor ? { color: props.textColor } : undefined"
+  >
     <div
       v-for="(item, idx) in normalizedItems"
       :key="item.id"

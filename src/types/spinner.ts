@@ -20,6 +20,7 @@ export interface YSpinnerProps {
   size?: YSpinnerSize;
   variant?: YSpinnerVariant;
   color?: string;
+  textColor?: string;
   label?: string;
   speed?: YSpinnerSpeed;
   visible?: boolean;

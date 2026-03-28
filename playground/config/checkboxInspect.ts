@@ -6,14 +6,20 @@ export const checkboxVariants = [
   "filled",
   "ghost",
   "outlined",
+  "soft",
+  "brutal",
+  "neon",
+  "pill",
+  "card",
+  "toggle",
 ] as const;
 export const checkboxRadii = ["none", "sm", "md", "lg", "full"] as const;
 
 export const playgroundQuickConfig: PlaygroundQuickConfig = {
   componentId: "YCheckbox",
-  propKey: "size",
-  options: [...checkboxSizes],
+  propKey: "variant",
+  options: [...checkboxVariants],
   applyOption(next, option) {
-    next.size = option;
+    next.variant = option;
   },
 };

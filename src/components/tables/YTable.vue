@@ -80,7 +80,10 @@ const headCellClass = computed(() =>
 </script>
 
 <template>
-  <div :class="[wrapperClasses, 'overflow-auto', fullWidth ? 'w-full' : '']">
+  <div
+    :class="[wrapperClasses, 'overflow-auto', fullWidth ? 'w-full' : '']"
+    :style="props.textColor ? { color: props.textColor } : undefined"
+  >
     <div
       v-if="loading"
       class="flex items-center justify-center py-12 text-sm text-gray-400"

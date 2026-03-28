@@ -12,6 +12,7 @@ export interface YSkeletonProps {
   width?: string | number;
   height?: string | number;
   radius?: YSkeletonRadius;
+  textColor?: string;
   animated?: boolean;
   count?: number;
 }

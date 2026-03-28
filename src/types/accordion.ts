@@ -26,6 +26,7 @@ export interface YAccordionProps {
   multiple?: boolean;
   defaultOpen?: string[];
   radius?: YAccordionRadius;
+  textColor?: string;
   bordered?: boolean;
   separated?: boolean;
 }

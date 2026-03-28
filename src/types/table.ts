@@ -21,6 +21,7 @@ export interface YTableProps {
   rows?: Record<string, unknown>[];
   variant?: YTableVariant;
   size?: YTableSize;
+  textColor?: string;
   loading?: boolean;
   caption?: string;
   hoverable?: boolean;

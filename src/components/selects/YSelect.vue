@@ -133,6 +133,7 @@ onBeforeUnmount(() =>
     ref="containerRef"
     class="relative"
     :class="fullWidth ? 'w-full' : 'inline-block'"
+    :style="props.textColor ? { color: props.textColor } : undefined"
   >
     <div
       v-if="label"

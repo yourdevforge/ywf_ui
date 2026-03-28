@@ -1,7 +1,17 @@
 import type { ComponentSize } from "./common";
 
 export type YCheckboxSize = ComponentSize;
-export type YCheckboxVariant = "default" | "filled" | "ghost" | "outlined";
+export type YCheckboxVariant =
+  | "default"
+  | "filled"
+  | "ghost"
+  | "outlined"
+  | "soft"
+  | "brutal"
+  | "neon"
+  | "pill"
+  | "card"
+  | "toggle";
 export type YCheckboxRadius = "none" | "sm" | "md" | "lg" | "full";
 
 export interface YCheckboxProps {
@@ -12,6 +22,7 @@ export interface YCheckboxProps {
   variant?: YCheckboxVariant;
   radius?: YCheckboxRadius;
   color?: string;
+  textColor?: string;
   disabled?: boolean;
   indeterminate?: boolean;
 }

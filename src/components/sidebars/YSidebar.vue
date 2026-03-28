@@ -547,7 +547,7 @@ const closeIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" st
   <aside
     role="navigation"
     :class="[
-      'flex flex-col h-full overflow-hidden transition-[width] duration-[250ms] ease-out',
+      'flex flex-col h-full overflow-hidden transition-[width] duration-250 ease-out',
       vt.shell,
       elevationClass,
       rounded ? 'rounded-2xl' : '',
@@ -724,7 +724,7 @@ const closeIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" st
                       <span
                         v-else-if="item.badge !== undefined"
                         :class="[
-                          'shrink-0 inline-flex items-center justify-center rounded-full min-w-[18px] h-[18px] px-1 font-semibold',
+                          'shrink-0 inline-flex items-center justify-center rounded-full min-w-4.5 h-4.5 px-1 font-semibold',
                           sc.badgeText,
                           vt.badge,
                         ]"
@@ -809,7 +809,7 @@ const closeIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" st
                       <span
                         v-if="child.badge !== undefined"
                         :class="[
-                          'shrink-0 inline-flex items-center justify-center rounded-full min-w-[18px] h-[18px] px-1 font-semibold',
+                          'shrink-0 inline-flex items-center justify-center rounded-full min-w-4.5 h-4.5 px-1 font-semibold',
                           sc.badgeText,
                           vt.badge,
                         ]"

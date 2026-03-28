@@ -1,7 +1,16 @@
 import type { ComponentSize } from "./common";
 
 export type YRadioSize = ComponentSize;
-export type YRadioVariant = "default" | "filled" | "ghost";
+export type YRadioVariant =
+  | "default"
+  | "filled"
+  | "ghost"
+  | "card"
+  | "pill"
+  | "brutal"
+  | "soft"
+  | "neon"
+  | "segmented";
 
 export interface YRadioProps {
   modelValue?: unknown;
@@ -11,5 +20,6 @@ export interface YRadioProps {
   size?: YRadioSize;
   variant?: YRadioVariant;
   color?: string;
+  textColor?: string;
   disabled?: boolean;
 }

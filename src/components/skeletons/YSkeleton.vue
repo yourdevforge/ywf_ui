@@ -49,7 +49,10 @@ const variantClasses = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div
+    class="flex flex-col gap-2"
+    :style="props.textColor ? { color: props.textColor } : undefined"
+  >
     <div
       v-for="i in count ?? 1"
       :key="i"

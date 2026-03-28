@@ -45,6 +45,7 @@ const gridDelay = (i: number) =>
     role="status"
     class="inline-flex flex-col items-center gap-2"
     :aria-label="label ?? 'Loading'"
+    :style="props.textColor ? { color: props.textColor } : undefined"
   >
     <!-- ── RING (original) ─────────────────────────────────────── -->
     <svg

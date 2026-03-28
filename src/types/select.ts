@@ -20,6 +20,7 @@ export interface YSelectProps {
   size?: YSelectSize;
   variant?: YSelectVariant;
   radius?: YSelectRadius;
+  textColor?: string;
   disabled?: boolean;
   clearable?: boolean;
   searchable?: boolean;

@@ -59,6 +59,7 @@ function toggle() {
   <label
     class="inline-flex cursor-pointer select-none items-center gap-2.5"
     :class="disabled || loading ? 'cursor-not-allowed opacity-50' : ''"
+    :style="props.textColor ? { color: props.textColor } : undefined"
   >
     <button
       type="button"
