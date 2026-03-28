@@ -58,6 +58,19 @@ import {
 } from "./sidebarInspect";
 import { tabsVariants, tabsAligns } from "./tabsInspect";
 import { tooltipPlacements, tooltipVariants } from "./tooltipInspect";
+import {
+  checkboxSizes,
+  checkboxVariants,
+  checkboxRadii,
+} from "./checkboxInspect";
+import { radioSizes, radioVariants } from "./radioInspect";
+import { switchSizes, switchVariants } from "./switchInspect";
+import { selectSizes, selectVariants, selectRadii } from "./selectInspect";
+import { spinnerSizes, spinnerVariants, spinnerSpeeds } from "./spinnerInspect";
+import { skeletonVariants, skeletonRadii } from "./skeletonInspect";
+import { tableVariants, tableSizes } from "./tableInspect";
+import { toastTypes, toastVariants, toastRadii } from "./toastInspect";
+import { accordionVariants, accordionRadii } from "./accordionInspect";
 import type { PlaygroundInspectorConfig } from "./types";
 
 const navbarAlignOptions = ["left", "center", "right", "spread"] as const;
@@ -1465,6 +1478,428 @@ export const playgroundInspectorConfigs: readonly PlaygroundInspectorConfig[] =
         if (next.text === undefined) next.text = "Helpful tooltip text";
         if (next.placement === undefined) next.placement = "top";
         if (next.variant === undefined) next.variant = "dark";
+      },
+    },
+    {
+      componentId: "YCheckbox",
+      strict: true,
+      sections: [
+        { id: "content", title: "Content" },
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "label", section: "content" },
+        { key: "description", section: "content" },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: checkboxSizes,
+        },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: checkboxVariants,
+        },
+        {
+          key: "radius",
+          section: "appearance",
+          editor: "select",
+          options: checkboxRadii,
+        },
+        { key: "color", section: "appearance", editor: "color" },
+        { key: "disabled", section: "state", editor: "boolean" },
+        { key: "indeterminate", section: "state", editor: "boolean" },
+        {
+          key: "modelValue",
+          label: "Checked",
+          section: "state",
+          editor: "boolean",
+        },
+      ],
+      init(next) {
+        if (next.label === undefined)
+          next.label = "Accept terms and conditions";
+        if (next.size === undefined) next.size = "md";
+        if (next.radius === undefined) next.radius = "md";
+        if (next.variant === undefined) next.variant = "default";
+        if (next.color === undefined) next.color = "#2563eb";
+        if (next.modelValue === undefined) next.modelValue = false;
+      },
+    },
+    {
+      componentId: "YRadio",
+      strict: true,
+      sections: [
+        { id: "content", title: "Content" },
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "label", section: "content" },
+        { key: "description", section: "content" },
+        { key: "value", section: "content" },
+        { key: "modelValue", label: "Selected Value", section: "content" },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: radioSizes,
+        },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: radioVariants,
+        },
+        { key: "color", section: "appearance", editor: "color" },
+        { key: "disabled", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.label === undefined) next.label = "Option A";
+        if (next.value === undefined) next.value = "a";
+        if (next.modelValue === undefined) next.modelValue = "a";
+        if (next.size === undefined) next.size = "md";
+        if (next.color === undefined) next.color = "#2563eb";
+      },
+    },
+    {
+      componentId: "YSwitch",
+      strict: true,
+      sections: [
+        { id: "content", title: "Content" },
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "label", section: "content" },
+        { key: "description", section: "content" },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: switchSizes,
+        },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: switchVariants,
+        },
+        { key: "color", section: "appearance", editor: "color" },
+        { key: "modelValue", label: "On", section: "state", editor: "boolean" },
+        { key: "disabled", section: "state", editor: "boolean" },
+        { key: "loading", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.label === undefined) next.label = "Enable notifications";
+        if (next.modelValue === undefined) next.modelValue = true;
+        if (next.size === undefined) next.size = "md";
+        if (next.color === undefined) next.color = "#2563eb";
+      },
+    },
+    {
+      componentId: "YSelect",
+      strict: true,
+      sections: [
+        { id: "content", title: "Content" },
+        { id: "appearance", title: "Appearance" },
+        { id: "behavior", title: "Behavior" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "label", section: "content" },
+        { key: "placeholder", section: "content" },
+        { key: "hint", section: "content" },
+        { key: "error", section: "content" },
+        { key: "options", section: "content", editor: "json", rows: 5 },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: selectSizes,
+        },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: selectVariants,
+        },
+        {
+          key: "radius",
+          section: "appearance",
+          editor: "select",
+          options: selectRadii,
+        },
+        {
+          key: "fullWidth",
+          label: "Full Width",
+          section: "appearance",
+          editor: "boolean",
+        },
+        { key: "clearable", section: "behavior", editor: "boolean" },
+        { key: "searchable", section: "behavior", editor: "boolean" },
+        { key: "multiple", section: "behavior", editor: "boolean" },
+        { key: "disabled", section: "state", editor: "boolean" },
+        { key: "loading", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.placeholder === undefined)
+          next.placeholder = "Select an option";
+        if (next.size === undefined) next.size = "md";
+        if (next.variant === undefined) next.variant = "outlined";
+        if (next.radius === undefined) next.radius = "md";
+        if (next.fullWidth === undefined) next.fullWidth = true;
+        if (!Array.isArray(next.options))
+          next.options = [
+            { label: "Option A", value: "a" },
+            { label: "Option B", value: "b" },
+            { label: "Option C", value: "c" },
+            { label: "Disabled Option", value: "d", disabled: true },
+          ];
+      },
+    },
+    {
+      componentId: "YSpinner",
+      strict: true,
+      sections: [
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: spinnerVariants,
+        },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: spinnerSizes,
+        },
+        {
+          key: "color",
+          label: "Color",
+          section: "appearance",
+          editor: "color",
+        },
+        {
+          key: "speed",
+          section: "appearance",
+          editor: "select",
+          options: spinnerSpeeds,
+        },
+        { key: "label", section: "appearance" },
+        { key: "visible", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.variant === undefined) next.variant = "ring";
+        if (next.size === undefined) next.size = "md";
+        if (next.speed === undefined) next.speed = "normal";
+        if (next.color === undefined) next.color = "#2563eb";
+        if (next.visible === undefined) next.visible = true;
+      },
+    },
+    {
+      componentId: "YSkeleton",
+      strict: true,
+      sections: [
+        { id: "appearance", title: "Appearance" },
+        { id: "dimensions", title: "Dimensions" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: skeletonVariants,
+        },
+        {
+          key: "radius",
+          section: "appearance",
+          editor: "select",
+          options: skeletonRadii,
+        },
+        { key: "width", section: "dimensions" },
+        { key: "height", section: "dimensions" },
+        {
+          key: "count",
+          section: "dimensions",
+          editor: "number",
+        },
+        { key: "animated", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.variant === undefined) next.variant = "rect";
+        if (next.radius === undefined) next.radius = "md";
+        if (next.animated === undefined) next.animated = true;
+        if (next.count === undefined) next.count = 1;
+        if (next.width === undefined) next.width = "100%";
+        if (next.height === undefined) next.height = "80px";
+      },
+    },
+    {
+      componentId: "YTable",
+      strict: true,
+      sections: [
+        { id: "data", title: "Data" },
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "columns", section: "data", editor: "json", rows: 5 },
+        { key: "rows", section: "data", editor: "json", rows: 6 },
+        { key: "caption", section: "data" },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: tableVariants,
+        },
+        {
+          key: "size",
+          section: "appearance",
+          editor: "select",
+          options: tableSizes,
+        },
+        { key: "hoverable", section: "appearance", editor: "boolean" },
+        {
+          key: "fullWidth",
+          label: "Full Width",
+          section: "appearance",
+          editor: "boolean",
+        },
+        { key: "loading", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.variant === undefined) next.variant = "simple";
+        if (next.size === undefined) next.size = "md";
+        if (next.hoverable === undefined) next.hoverable = true;
+        if (next.fullWidth === undefined) next.fullWidth = true;
+        if (!Array.isArray(next.columns))
+          next.columns = [
+            { key: "name", label: "Name", sortable: true },
+            { key: "role", label: "Role", sortable: true },
+            { key: "status", label: "Status" },
+          ];
+        if (!Array.isArray(next.rows))
+          next.rows = [
+            { name: "Alice Chen", role: "Designer", status: "Active" },
+            { name: "Bob Smith", role: "Engineer", status: "Active" },
+            { name: "Carol White", role: "Manager", status: "On leave" },
+          ];
+      },
+    },
+    {
+      componentId: "YToast",
+      strict: true,
+      sections: [
+        { id: "content", title: "Content" },
+        { id: "appearance", title: "Appearance" },
+        { id: "state", title: "State" },
+      ],
+      controls: [
+        { key: "title", section: "content" },
+        { key: "message", section: "content" },
+        {
+          key: "type",
+          section: "appearance",
+          editor: "select",
+          options: toastTypes,
+        },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: toastVariants,
+        },
+        {
+          key: "radius",
+          section: "appearance",
+          editor: "select",
+          options: toastRadii,
+        },
+        {
+          key: "showIcon",
+          label: "Show Icon",
+          section: "appearance",
+          editor: "boolean",
+        },
+        { key: "dismissible", section: "state", editor: "boolean" },
+        { key: "visible", section: "state", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.title === undefined) next.title = "Operation successful";
+        if (next.message === undefined)
+          next.message = "Your changes have been saved.";
+        if (next.type === undefined) next.type = "success";
+        if (next.variant === undefined) next.variant = "solid";
+        if (next.radius === undefined) next.radius = "md";
+        if (next.showIcon === undefined) next.showIcon = true;
+        if (next.dismissible === undefined) next.dismissible = true;
+        if (next.visible === undefined) next.visible = true;
+      },
+    },
+    {
+      componentId: "YAccordion",
+      strict: true,
+      sections: [
+        { id: "data", title: "Data" },
+        { id: "appearance", title: "Appearance" },
+        { id: "behavior", title: "Behavior" },
+      ],
+      controls: [
+        { key: "items", section: "data", editor: "json", rows: 6 },
+        {
+          key: "variant",
+          section: "appearance",
+          editor: "select",
+          options: accordionVariants,
+        },
+        {
+          key: "radius",
+          section: "appearance",
+          editor: "select",
+          options: accordionRadii,
+        },
+        { key: "bordered", section: "appearance", editor: "boolean" },
+        { key: "separated", section: "appearance", editor: "boolean" },
+        { key: "multiple", section: "behavior", editor: "boolean" },
+      ],
+      init(next) {
+        if (next.variant === undefined) next.variant = "default";
+        if (next.radius === undefined) next.radius = "md";
+        if (next.bordered === undefined) next.bordered = true;
+        if (next.multiple === undefined) next.multiple = false;
+        if (!Array.isArray(next.items) || next.items.length === 0)
+          next.items = [
+            {
+              id: "what",
+              title: "What is this component?",
+              content:
+                "An accordion allows users to toggle the visibility of sections of content. It keeps information organized and reduces cognitive load.",
+            },
+            {
+              id: "usage",
+              title: "When should I use it?",
+              content:
+                "Use accordions for FAQs, settings panels, or any place where you want to show a lot of content in a compact space.",
+              icon: "💡",
+            },
+            {
+              id: "a11y",
+              title: "Accessibility",
+              content:
+                "All items are keyboard navigable and use proper aria-expanded attributes.",
+              icon: "♿",
+            },
+          ];
+        if (!Array.isArray(next.defaultOpen)) next.defaultOpen = ["what"];
       },
     },
   ];

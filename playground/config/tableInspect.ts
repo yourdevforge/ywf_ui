@@ -1,0 +1,19 @@
+import type { PlaygroundQuickConfig } from "./types";
+
+export const tableVariants = [
+  "simple",
+  "striped",
+  "bordered",
+  "minimal",
+  "card",
+] as const;
+export const tableSizes = ["xs", "sm", "md", "lg", "xl"] as const;
+
+export const playgroundQuickConfig: PlaygroundQuickConfig = {
+  componentId: "YTable",
+  propKey: "variant",
+  options: [...tableVariants],
+  applyOption(next, option) {
+    next.variant = option;
+  },
+};

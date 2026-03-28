@@ -85,4 +85,74 @@ export type {
   YAvatarRing,
   YAvatarProps,
 } from "./avatar";
-export type { YTabsVariant, YTabsAlign, YTabsProps } from "./tabs";
+export type YTabsVariant =
+  | "underline"
+  | "pills"
+  | "boxed"
+  | "highlight"
+  | "brutal"
+  | "glass"
+  | "neon"
+  | "soft"
+  | "chip"
+  | "retro"
+  | "minimal"
+  | "floating"
+  | "aurora"
+  | "terminal"
+  | "dot"
+  | "folder"
+  | "gradient"
+  | "outline"
+  | "ticker";
+export type YTabsAlign = "left" | "center" | "right" | "stretch";
+export interface YTabsProps {
+  tabs?: string[];
+  variant?: YTabsVariant;
+  align?: YTabsAlign;
+}
+export type {
+  YCheckboxSize,
+  YCheckboxVariant,
+  YCheckboxRadius,
+  YCheckboxProps,
+} from "./checkbox";
+export type { YRadioSize, YRadioVariant, YRadioProps } from "./radio";
+export type { YSwitchSize, YSwitchVariant, YSwitchProps } from "./switch";
+export type {
+  YSelectSize,
+  YSelectVariant,
+  YSelectRadius,
+  YSelectOption,
+  YSelectProps,
+} from "./select";
+export type {
+  YSpinnerSize,
+  YSpinnerVariant,
+  YSpinnerSpeed,
+  YSpinnerProps,
+} from "./spinner";
+export type {
+  YSkeletonVariant,
+  YSkeletonRadius,
+  YSkeletonProps,
+} from "./skeleton";
+export type {
+  YTableSize,
+  YTableVariant,
+  YTableColumn,
+  YTableProps,
+} from "./table";
+export type {
+  YToastType,
+  YToastVariant,
+  YToastPosition,
+  YToastRadius,
+  YToastProps,
+} from "./toast";
+export type {
+  YAccordionVariant,
+  YAccordionRadius,
+  YAccordionItem,
+  YAccordionProps,
+} from "./accordion";

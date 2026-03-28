@@ -248,13 +248,9 @@ watch(
   groupedFilteredComponents,
   (groups) => {
     const available = new Set(groups.map((g) => g.category));
-    const kept = openCategories.value.filter((category) =>
+    openCategories.value = openCategories.value.filter((category) =>
       available.has(category),
     );
-    const missing = groups
-      .map((g) => g.category)
-      .filter((category) => !kept.includes(category));
-    openCategories.value = [...kept, ...missing];
 
     if (
       categoryFilter.value !== "All" &&
@@ -272,10 +268,10 @@ function isCategoryOpen(category: string): boolean {
 
 function toggleCategory(category: string): void {
   if (isCategoryOpen(category)) {
-    openCategories.value = openCategories.value.filter((c) => c !== category);
+    openCategories.value = [];
     return;
   }
-  openCategories.value = [...openCategories.value, category];
+  openCategories.value = [category];
 }
 
 function handleNavClick(componentId: string): void {

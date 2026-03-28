@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, nextTick } from "vue";
-import type { YTabsProps } from "../../types/tabs";
+import type { YTabsProps } from "@/types";
 
 const props = withDefaults(defineProps<YTabsProps>(), {
   tabs: () => ["Overview", "Billing", "Usage"],

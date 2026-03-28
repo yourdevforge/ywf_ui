@@ -10,6 +10,15 @@ export { default as YAlert } from "./components/alerts/YAlert.vue";
 export { default as YTooltip } from "./components/tooltips/YTooltip.vue";
 export { default as YAvatar } from "./components/avatars/YAvatar.vue";
 export { default as YTabs } from "./components/tabs/YTabs.vue";
+export { default as YCheckbox } from "./components/checkboxes/YCheckbox.vue";
+export { default as YRadio } from "./components/radios/YRadio.vue";
+export { default as YSwitch } from "./components/switches/YSwitch.vue";
+export { default as YSelect } from "./components/selects/YSelect.vue";
+export { default as YSpinner } from "./components/spinners/YSpinner.vue";
+export { default as YSkeleton } from "./components/skeletons/YSkeleton.vue";
+export { default as YTable } from "./components/tables/YTable.vue";
+export { default as YToast } from "./components/toasts/YToast.vue";
+export { default as YAccordion } from "./components/accordions/YAccordion.vue";
 export { YwfUIPlugin } from "./plugin";
 export type {
   ComponentSize,
@@ -79,4 +88,39 @@ export type {
   YTabsVariant,
   YTabsAlign,
   YTabsProps,
+  YCheckboxSize,
+  YCheckboxVariant,
+  YCheckboxRadius,
+  YCheckboxProps,
+  YRadioSize,
+  YRadioVariant,
+  YRadioProps,
+  YSwitchSize,
+  YSwitchVariant,
+  YSwitchProps,
+  YSelectSize,
+  YSelectVariant,
+  YSelectRadius,
+  YSelectOption,
+  YSelectProps,
+  YSpinnerSize,
+  YSpinnerVariant,
+  YSpinnerSpeed,
+  YSpinnerProps,
+  YSkeletonVariant,
+  YSkeletonRadius,
+  YSkeletonProps,
+  YTableSize,
+  YTableVariant,
+  YTableColumn,
+  YTableProps,
+  YToastType,
+  YToastVariant,
+  YToastPosition,
+  YToastRadius,
+  YToastProps,
+  YAccordionVariant,
+  YAccordionRadius,
+  YAccordionItem,
+  YAccordionProps,
 } from "./types";
