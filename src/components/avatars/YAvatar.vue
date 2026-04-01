@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YAvatar" });
 import type {
@@ -26,6 +27,13 @@ const props = withDefaults(defineProps<YAvatarProps>(), {
 const dk = useDarkMode(props.dark);
 const anim = useAnimation(() => props.animation);
 const appearTx = computed(() => getAppearAnimationClasses(anim.value));
+
+onMounted(() => {
+  warnInvalidColor("YAvatar", "bgColor", props.bgColor);
+  warnInvalidColor("YAvatar", "textColor", props.textColor);
+  warnInvalidColor("YAvatar", "ringColor", props.ringColor);
+  warnInvalidColor("YAvatar", "accentColor", props.accentColor);
+});
 
 // --- Built-in default images (abstract/geometric/landscape) ---
 
@@ -295,6 +303,15 @@ const displayBadge = computed(() => {
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <span
     class="avatar-root relative inline-flex items-center justify-center overflow-visible"
     :style="{ width: `${resolvedSize}px`, height: `${resolvedSize}px` }"

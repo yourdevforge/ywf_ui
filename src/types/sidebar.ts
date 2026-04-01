@@ -39,8 +39,11 @@ export interface YSidebarGroup {
   items: YSidebarItem[];
 }
 
+import type { YAnimationPreset } from "./animation";
+
 export interface YSidebarProps {
   dark?: boolean;
+  animation?: YAnimationPreset;
   open?: boolean;
   variant?: YSidebarVariant;
   size?: YSidebarSize;

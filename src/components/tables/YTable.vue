@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YTable" });
 import type { YTableProps, YTableColumn } from "@/types/table";
@@ -21,6 +22,19 @@ const props = withDefaults(defineProps<YTableProps>(), {
 const dk = useDarkMode(props.dark);
 const anim = useAnimation(() => props.animation);
 const appearTx = computed(() => getAppearAnimationClasses(anim.value));
+
+onMounted(() => {
+  warnInvalidColor("YTable", "textColor", props.textColor);
+  warnInvalidColor("YTable", "backgroundColor", props.backgroundColor);
+  warnInvalidColor("YTable", "borderColor", props.borderColor);
+  warnInvalidColor("YTable", "headerBackgroundColor", props.headerBackgroundColor);
+  warnInvalidColor("YTable", "headerTextColor", props.headerTextColor);
+  warnInvalidColor("YTable", "cellTextColor", props.cellTextColor);
+  warnInvalidColor("YTable", "captionColor", props.captionColor);
+  warnInvalidColor("YTable", "rowHoverColor", props.rowHoverColor);
+  warnInvalidColor("YTable", "rowHoverTextColor", props.rowHoverTextColor);
+  warnInvalidColor("YTable", "dividerColor", props.dividerColor);
+});
 
 const emit = defineEmits<{
   sort: [column: string, direction: "asc" | "desc"];
@@ -254,6 +268,15 @@ const emptyStateStyle = computed(() =>
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <div
     :class="[wrapperClasses, 'overflow-auto', fullWidth ? 'w-full' : '']"
     :style="wrapperStyle"

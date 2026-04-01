@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from '@/composables/useAnimation';
 import { getAppearAnimationClasses } from '@/types/animation';
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YSkeleton" });
 import type { YSkeletonProps } from "@/types/skeleton";
@@ -68,6 +69,10 @@ const variantClasses = computed(() => {
     default:
       return radiusMap[props.radius ?? "md"];
   }
+});
+
+onMounted(() => {
+  warnInvalidColor("YSkeleton", "textColor", props.textColor);
 });
 </script>
 

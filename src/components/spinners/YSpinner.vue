@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
 import type { YSpinnerProps } from "@/types/spinner";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YSpinner" });
 
@@ -50,9 +51,23 @@ const gridDots = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 // Stagger delay per grid position (wave-like pattern)
 const gridDelay = (i: number) =>
   `${((Math.floor(i / 3) + (i % 3)) * 0.12).toFixed(2)}s`;
+
+onMounted(() => {
+  warnInvalidColor("YSpinner", "color", props.color);
+  warnInvalidColor("YSpinner", "textColor", props.textColor);
+});
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <div
     v-if="visible"
     role="status"

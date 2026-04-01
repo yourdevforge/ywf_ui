@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from '@/composables/useAnimation';
 import { getAppearAnimationClasses } from '@/types/animation';
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YCard" });
 import type { YCardProps, ComponentSize } from "@/types";
@@ -149,6 +150,21 @@ const props = withDefaults(defineProps<YCardProps>(), {
 const dk = useDarkMode(props.dark);
 const anim = useAnimation(() => props.animation);
 const appearTx = computed(() => getAppearAnimationClasses(anim.value));
+
+onMounted(() => {
+  warnInvalidColor("YCard", "bgColor", props.bgColor);
+  warnInvalidColor("YCard", "borderColor", props.borderColor);
+  warnInvalidColor("YCard", "textColor", props.textColor);
+  warnInvalidColor("YCard", "accentColor", props.accentColor);
+  warnInvalidColor("YCard", "gradTextColor", props.gradTextColor);
+  warnInvalidColor("YCard", "brutBorderColor", props.brutBorderColor);
+  warnInvalidColor("YCard", "brutTextColor", props.brutTextColor);
+  warnInvalidColor("YCard", "profileAvatarColor", props.profileAvatarColor);
+  warnInvalidColor("YCard", "productImageColor", props.productImageColor);
+  warnInvalidColor("YCard", "articleCategoryColor", props.articleCategoryColor);
+  warnInvalidColor("YCard", "kanTagColor", props.kanTagColor);
+});
+
 const defaultBg = computed(() => (dk.value ? "#1e293b" : "var(--ywf-bg)"));
 const defaultText = computed(() => (dk.value ? "#f1f5f9" : "var(--ywf-text)"));
 const defaultBorder = computed(() =>

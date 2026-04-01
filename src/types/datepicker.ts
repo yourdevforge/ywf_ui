@@ -7,8 +7,11 @@ export type YDatePickerVariant =
 
 export type YDatePickerSize = "sm" | "md" | "lg";
 
+import type { YAnimationPreset } from "./animation";
+
 export interface YDatePickerProps {
   dark?: boolean;
+  animation?: YAnimationPreset;
   modelValue?: string | null;
   placeholder?: string;
   variant?: YDatePickerVariant;

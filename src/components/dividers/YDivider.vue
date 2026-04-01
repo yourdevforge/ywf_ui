@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import type { YDividerProps } from "@/types/divider";
 import { useAnimation } from '@/composables/useAnimation';
 import { getAppearAnimationClasses } from '@/types/animation';
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YDivider" });
 
@@ -47,6 +48,10 @@ const alignClass = computed(() => {
   if (!props.label || isVertical.value) return "";
   const map = { left: "justify-start", center: "justify-center", right: "justify-end" };
   return map[props.align ?? "center"];
+});
+
+onMounted(() => {
+  warnInvalidColor("YDivider", "color", props.color);
 });
 </script>
 

@@ -3,6 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from "@/composables/useAnimation";
 import { getPopupAnimationClasses } from "@/types/animation";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YSelect" });
 import type { YSelectProps, YSelectOption } from "@/types/select";
@@ -169,7 +170,10 @@ function handleClickOutside(e: MouseEvent) {
   }
 }
 
-onMounted(() => document.addEventListener("mousedown", handleClickOutside));
+onMounted(() => {
+  document.addEventListener("mousedown", handleClickOutside);
+  warnInvalidColor("YSelect", "textColor", props.textColor);
+});
 onBeforeUnmount(() =>
   document.removeEventListener("mousedown", handleClickOutside),
 );

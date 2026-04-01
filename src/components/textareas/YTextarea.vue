@@ -3,6 +3,7 @@ import { computed, ref, onMounted, useAttrs, useId } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from '@/composables/useAnimation';
 import { getAppearAnimationClasses } from '@/types/animation';
+import { warnInvalidColor } from "@/utils/validateColor";
 import type {
   YTextareaProps,
   YTextareaVariant,
@@ -412,6 +413,7 @@ onMounted(() => {
     textareaRef.value.style.height = "auto";
     textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
   }
+  warnInvalidColor("YTextarea", "textColor", props.textColor);
 });
 </script>
 

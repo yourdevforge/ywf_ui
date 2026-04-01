@@ -7,6 +7,8 @@ import {
   watch,
 } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
+import { useAnimation } from "@/composables/useAnimation";
+import { getPopupAnimationClasses } from "@/types/animation";
 import type { YDatePickerProps, YDatePickerVariant } from "@/types/datepicker";
 
 defineOptions({ name: "YDatePicker" });
@@ -19,6 +21,7 @@ const props = withDefaults(defineProps<YDatePickerProps>(), {
   readonly: false,
   clearable: false,
   inline: false,
+  animation: undefined,
 });
 
 const emit = defineEmits<{
@@ -26,6 +29,8 @@ const emit = defineEmits<{
 }>();
 
 const dk = useDarkMode(props.dark);
+const anim = useAnimation(() => props.animation);
+const popupTx = computed(() => getPopupAnimationClasses(anim.value));
 
 /* ── Calendar state ── */
 const today = new Date();
@@ -436,12 +441,12 @@ const tok = computed((): Tokens => {
 
     <!-- Calendar panel (popup or inline) -->
     <Transition
-      enter-active-class="transition duration-150 ease-out"
-      enter-from-class="opacity-0 translate-y-1 scale-95"
-      enter-to-class="opacity-100 translate-y-0 scale-100"
-      leave-active-class="transition duration-100 ease-in"
-      leave-from-class="opacity-100 translate-y-0 scale-100"
-      leave-to-class="opacity-0 translate-y-1 scale-95"
+      :enter-active-class="popupTx.enterActive"
+      :enter-from-class="popupTx.enterFrom"
+      :enter-to-class="popupTx.enterTo"
+      :leave-active-class="popupTx.leaveActive"
+      :leave-from-class="popupTx.leaveFrom"
+      :leave-to-class="popupTx.leaveTo"
     >
       <div
         v-if="inline || isOpen"

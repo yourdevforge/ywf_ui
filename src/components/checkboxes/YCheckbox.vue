@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
 
 defineOptions({ name: "YCheckbox" });
 import type { YCheckboxProps } from "@/types/checkbox";
@@ -77,6 +77,7 @@ const resolvedColor = computed(() => props.color ?? "var(--ywf-interactive)");
 
 onMounted(() => {
   warnInvalidColor("YCheckbox", "color", props.color);
+  warnInvalidColor("YCheckbox", "textColor", props.textColor);
 });
 
 function toggle() {
@@ -87,6 +88,15 @@ function toggle() {
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <div :style="props.textColor ? { color: props.textColor } : undefined">
     <!-- ═══════════════════════════════════════════════════════
        TOGGLE variant — rendered as a switch track + thumb

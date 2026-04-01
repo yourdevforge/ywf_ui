@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
 import type { YProgressProps, YProgressVariant } from "@/types/progress";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YProgress" });
 
@@ -24,6 +25,14 @@ const props = withDefaults(defineProps<YProgressProps>(), {
 const dk = useDarkMode(props.dark);
 const anim = useAnimation(() => props.animation);
 const appearTx = computed(() => getAppearAnimationClasses(anim.value));
+
+onMounted(() => {
+  warnInvalidColor("YProgress", "textColor", props.textColor);
+  warnInvalidColor("YProgress", "fillColor", props.fillColor);
+  warnInvalidColor("YProgress", "trackColor", props.trackColor);
+  warnInvalidColor("YProgress", "borderColor", props.borderColor);
+  warnInvalidColor("YProgress", "labelColor", props.labelColor);
+});
 
 const normalized = computed(() => {
   if (props.indeterminate) return 45;
@@ -166,6 +175,15 @@ const fillStyle = computed(() => {
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <div class="w-full" :style="wrapperStyle">
     <div
       class="mb-1.5 flex items-center justify-between"

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from "@/composables/useAnimation";
 import { getPopupAnimationClasses } from "@/types/animation";
 import type { YAccordionProps, YAccordionItem } from "@/types/accordion";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YAccordion" });
 
@@ -284,6 +285,10 @@ function chevronClass(open: boolean): string {
       return "text-gray-400";
   }
 }
+
+onMounted(() => {
+  warnInvalidColor("YAccordion", "textColor", props.textColor);
+});
 </script>
 
 <template>

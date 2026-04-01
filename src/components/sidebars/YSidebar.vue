@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
+import { useAnimation } from "@/composables/useAnimation";
+import { getOverlayAnimationClasses } from "@/types/animation";
 import type {
   YSidebarProps,
   YSidebarVariant,
@@ -34,6 +36,7 @@ const props = withDefaults(defineProps<YSidebarProps>(), {
   rounded: false,
   sticky: false,
   zIndex: 40,
+  animation: undefined,
 });
 
 const emit = defineEmits<{
@@ -43,6 +46,11 @@ const emit = defineEmits<{
 }>();
 
 const dk = useDarkMode(props.dark);
+const anim = useAnimation(() => props.animation);
+const backdropTx = computed(() => getOverlayAnimationClasses(anim.value));
+const panelTransitionClass = computed(() =>
+  anim.value === "none" ? "duration-0" : "transition-[width] duration-250 ease-out",
+);
 
 const uncontrolledOpen = ref(props.open ?? true);
 const isControlled = computed(() => props.open !== undefined);
@@ -514,12 +522,12 @@ function handleItemClick(item: YSidebarItem) {
 <template>
   <!-- Overlay backdrop -->
   <Transition
-    enter-active-class="transition duration-200 ease-out"
-    enter-from-class="opacity-0"
-    enter-to-class="opacity-100"
-    leave-active-class="transition duration-150 ease-in"
-    leave-from-class="opacity-100"
-    leave-to-class="opacity-0"
+    :enter-active-class="backdropTx.enterActive"
+    :enter-from-class="backdropTx.enterFrom"
+    :enter-to-class="backdropTx.enterTo"
+    :leave-active-class="backdropTx.leaveActive"
+    :leave-from-class="backdropTx.leaveFrom"
+    :leave-to-class="backdropTx.leaveTo"
   >
     <div
       v-if="(behavior === 'overlay' || behavior === 'drawer') && isOpen"
@@ -536,7 +544,8 @@ function handleItemClick(item: YSidebarItem) {
   <nav
     aria-label="Sidebar navigation"
     :class="[
-      'flex flex-col h-full overflow-hidden transition-[width] duration-250 ease-out',
+      'flex flex-col h-full overflow-hidden',
+      panelTransitionClass,
       vt.shell,
       elevationClass,
       rounded ? 'rounded-2xl' : '',

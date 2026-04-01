@@ -32,7 +32,22 @@ const props = withDefaults(defineProps<YBadgeProps>(), {
 
 const dk = useDarkMode(props.dark);
 const anim = useAnimation(() => props.animation);
-const badgeTransition = computed(() => getAppearAnimationClasses(anim.value));
+const badgeTransition = computed(() => {
+  const a = anim.value;
+  // "auto" → use a default scale entrance (badges should always pop in by default)
+  // any explicit preset (including "none") → use the animation system as-is
+  if (a === "auto") {
+    return {
+      enterActive: "transition duration-150 ease-out",
+      enterFrom: "opacity-0 scale-90",
+      enterTo: "opacity-100 scale-100",
+      leaveActive: "transition duration-100 ease-in",
+      leaveFrom: "opacity-100 scale-100",
+      leaveTo: "opacity-0 scale-90",
+    };
+  }
+  return getAppearAnimationClasses(a);
+});
 
 const emit = defineEmits<{
   dismiss: [];
@@ -363,12 +378,12 @@ const tag = computed(() => (props.clickable ? "button" : "span"));
 
 <template>
   <Transition
-    :enter-active-class="badgeTransition.enterActive || 'transition duration-150 ease-out'"
-    :enter-from-class="badgeTransition.enterFrom || 'opacity-0 scale-90'"
-    :enter-to-class="badgeTransition.enterTo || 'opacity-100 scale-100'"
-    :leave-active-class="badgeTransition.leaveActive || 'transition duration-100 ease-in'"
-    :leave-from-class="badgeTransition.leaveFrom || 'opacity-100 scale-100'"
-    :leave-to-class="badgeTransition.leaveTo || 'opacity-0 scale-90'"
+    :enter-active-class="badgeTransition.enterActive"
+    :enter-from-class="badgeTransition.enterFrom"
+    :enter-to-class="badgeTransition.enterTo"
+    :leave-active-class="badgeTransition.leaveActive"
+    :leave-from-class="badgeTransition.leaveFrom"
+    :leave-to-class="badgeTransition.leaveTo"
   >
     <component
       :is="tag"

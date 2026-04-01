@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, useId } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
-import { useAnimation } from '@/composables/useAnimation';
-import { getAppearAnimationClasses } from '@/types/animation';
+import { useAnimation } from "@/composables/useAnimation";
+import { getAppearAnimationClasses } from "@/types/animation";
 import type {
   YInputProps,
   YInputVariant,
@@ -695,6 +695,15 @@ function onClear() {
 </script>
 
 <template>
+  <Transition
+    appear
+    :enter-active-class="appearTx.enterActive"
+    :enter-from-class="appearTx.enterFrom"
+    :enter-to-class="appearTx.enterTo"
+    :leave-active-class="appearTx.leaveActive"
+    :leave-from-class="appearTx.leaveFrom"
+    :leave-to-class="appearTx.leaveTo"
+  >
   <div :class="['flex flex-col', fullWidth ? 'w-full' : 'inline-flex']">
     <!-- Label -->
     <label

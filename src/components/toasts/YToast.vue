@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onUnmounted, watch } from "vue";
+import { computed, onMounted, onUnmounted, watch } from "vue";
 import { useDarkMode } from "@/composables/useDarkMode";
 import { useAnimation } from "@/composables/useAnimation";
 import { getPopupAnimationClasses } from "@/types/animation";
+import { warnInvalidColor } from "@/utils/validateColor";
 
 defineOptions({ name: "YToast" });
 import type { YToastProps } from "@/types/toast";
@@ -172,6 +173,10 @@ const wrapperStyle = computed(() => {
   const style =
     props.variant === "solid" ? { backgroundColor: solidBgMap[t.value] } : {};
   return props.textColor ? { ...style, color: props.textColor } : style;
+});
+
+onMounted(() => {
+  warnInvalidColor("YToast", "textColor", props.textColor);
 });
 </script>
 
