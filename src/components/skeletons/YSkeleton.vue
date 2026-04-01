@@ -43,8 +43,8 @@ const baseStyle = computed(() => ({
     : undefined,
 }));
 
-const isComposite = computed(() =>
-  props.variant === "card" || props.variant === "list-item",
+const isComposite = computed(
+  () => props.variant === "card" || props.variant === "list-item",
 );
 
 const variantClasses = computed(() => {
@@ -92,7 +92,9 @@ const variantClasses = computed(() => {
         :key="i"
         :class="[
           'w-full rounded-xl overflow-hidden',
-          dk ? 'bg-slate-800 border border-slate-700' : 'bg-white border border-gray-100 shadow-sm',
+          dk
+            ? 'bg-slate-800 border border-slate-700'
+            : 'bg-white border border-gray-100 shadow-sm',
           pulse,
         ]"
       >
